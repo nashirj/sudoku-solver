@@ -12,22 +12,13 @@
  I1 I2 I3| I4 I5 I6| I7 I8 I9    1 . 4 |. . . |. . .     1 6 4 |8 7 5 |2 9 3 
 '''
 
-# row = ['.']*9
-# table = [row.copy() for i in row]
-# table[0][0] = '4'
-# table[0][6] = '8'
-# table[0][8] = '5'
-# table[1][1] = '3'
-# table[2][3] = '7'
-# table[3][1] = '2'
-# table[3][7] = '6'
-# table[4][4] = '8'
-# table[4][6] = '4'
-# table[4][6] = '4'
-puzzle = "4 . . . . . 8 . 5 . 3 . . . . . . . . . . 7 . . . . . . 2 . . . . . 6 . . . . . 8 . 4 . . . . . . 1 . . . . . . . 6 . 3 . 7 .  5 . . 2 . . . . . 1 . 4 . . . . . ."
-row = puzzle.split()
-table = [None]*9
-for i in range(len(row) // 9):
-    table[i] = [row[i*9:(i+1)*9]]
-for t in table:
-    print(t)
+import helper
+import solver
+import board
+
+def main():
+    puzzle = "4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......"
+    b = board.Board(puzzle)
+    helper.display(b)
+
+if __name__ == '__main__': main()
