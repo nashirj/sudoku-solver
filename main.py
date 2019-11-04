@@ -18,7 +18,14 @@ import board
 
 def main():
     puzzle = "4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......"
+    # puzzle = "010020300004005060070000008006900070000100002030048000500006040000800106008000000".replace('0', '.')
     b = board.Board(puzzle)
-    helper.display(b)
+    # helper.display(b)
+    s = solver.Solver(9, 3)
+    solved_b = s.solve(b.table.copy())
+
+    # s.validate(b.table)
+
+    # helper.display(solved_b)
 
 if __name__ == '__main__': main()
