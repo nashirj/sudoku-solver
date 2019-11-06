@@ -80,10 +80,13 @@ def main():
     #     puzzle = puzzle.replace('0', '.')
     #     print(len(puzzle))
     b = board.Board(puzzle)
-    # helper.display(b)
+    helper.display(b.table)
     s = solver.Solver(9, 3)
-    solved_b = s.solve(b.table)
+    solved_table = s.solve(b.table)
 
-    # helper.display(solved_b)
+    if solved_table:
+        helper.display(solved_table)
+    else:
+        print("no solution to this puzzle")
 
 if __name__ == '__main__': main()

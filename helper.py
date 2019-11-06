@@ -1,3 +1,3 @@
-def display(board):
-    for t in board.table:
+def display(table):
+    for t in table:
         print(t)
