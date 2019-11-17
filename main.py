@@ -12,6 +12,8 @@
  I1 I2 I3| I4 I5 I6| I7 I8 I9    1 . 4 |. . . |. . .     1 6 4 |8 7 5 |2 9 3 
 '''
 
+import time
+
 import helper
 import solver
 import board
@@ -75,18 +77,17 @@ puzzles = [
 ]
 
 def main():
-    puzzle = "4.....8.5.3..........7......2.....6.....8.4......1.......6.3.7.5..2.....1.4......"
-    # for puzzle in puzzles:
-    #     puzzle = puzzle.replace('0', '.')
-    #     print(len(puzzle))
-    b = board.Board(puzzle)
-    helper.display(b.table)
     s = solver.Solver(9, 3)
-    solved_table = s.solve(b.table)
-
-    if solved_table:
-        helper.display(solved_table)
-    else:
-        print("no solution to this puzzle")
+    
+    for puzzle in puzzles:
+        b = board.Board(puzzle)
+        helper.display("ORIGINAL BOARD", b)
+        t0 = time.time()
+        s.solve(b)
+        t1 = time.time()
+        if b.solved:
+            helper.display("SOLVED BOARD IN {} seconds".format(t1-t0), b)
+        else:
+            print("no solution to this puzzle")
 
 if __name__ == '__main__': main()

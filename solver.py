@@ -1,8 +1,5 @@
 import board
 
-### FOR DEBUGGING
-import time
-
 class Solver:
     def __init__(self, board_size, sq_size):
         self.nums = {}
@@ -14,9 +11,8 @@ class Solver:
     def validate_vector(self, vector):
         self.reset_nums()
         for val in vector:
-            if val == '.':
+            if val == '0':
                 continue
-            
             if self.nums[val]:
                 return False
             else:
@@ -27,9 +23,8 @@ class Solver:
         self.reset_nums()
         for row in square:
             for val in row:
-                if val == '.':
+                if val == '0':
                     continue
-
                 if self.nums[val]:
                     return False
                 else:
@@ -46,23 +41,17 @@ class Solver:
                 sq_rows = table[self.sq_size*i:self.sq_size*i+self.sq_size]
                 sq = [row[self.sq_size*j:self.sq_size*j+self.sq_size] for row in sq_rows]
                 if not self.validate_square(sq):
-                    # print("this square is invalid")
-                    # print(sq)
                     return False
             
         # validate rows
         for row in table:
             if not self.validate_vector(row):
-                # print("this row is invalid")
-                # print(row)
                 return False
             
         # validate cols
         for i in range(self.board_size):
             col = [table[j][i] for j in range(self.board_size)]
             if not self.validate_vector(col):
-                # print("this col is invalid")
-                # print(col)
                 return False
             
         return True
@@ -71,56 +60,31 @@ class Solver:
         for i in range(1, self.board_size+1):
             self.nums[str(i)] = False
 
-    def is_completed(self, table):
-        for row in table:
-            if '.' in row:
-                return False
-        return True
+    def find_unsolved(self, b):
+        for row in range(self.board_size):
+            for col in range(self.board_size):
+                if b.table[row][col] == '0':
+                    return row, col
 
-    def solve(self, table, i=0, j=0):
-        '''This works for 1 row.
-        I think it gets weird when backtracking from row i to row i - 1.
-        The first row starts out right, and then over time I think it backtracks too far and
-        changes the value. Try to figure out why second row skips over the solution, i.e.
-        should be 632158947 (see sudokusolver.net).
+        return -1, -1
 
-        '''
+    def solve(self, b):
+        if not self.validate(b.table):
+            b.solved = False
+            return
 
-        # time.sleep(0.1)
-        for t in table:
-            print(t)
+        row, col = self.find_unsolved(b)
+        if row == -1 and col == -1: # we solved it!
+            b.solved = True
+            return
 
-        # if the current cell isn't solved
-        if table[i][j] == '.':
-            # try all possible values
-            for k in range(1, self.board_size+1):
-                table[i][j] = str(k)
-                # if this value is valid, recurse
-                if self.validate(table):
-                    if j < self.board_size - 1:
-                        # advance to next column
-                        table = self.solve(table, i, j+1)
-                    else:
-                        # advance to next row
-                        table = self.solve(table, i+1, 0)
-                    # if self.is_completed(table):
-                    #     return table
-                # if this value is not valid, try the next value in the loop
-            # if we got here, then we tried all numbers up to board size
-            # this case is handled in the penultimate conditional, setting table[i][j] = '.' if table is invalid
-        else:
-            if j < self.board_size - 1:
-                # advance to next column
-                table = self.solve(table, i, j+1)
-            else:
-                # advance to next row
-                table = self.solve(table, i+1, 0)
-            # if self.is_completed(table):
-            #     return table
-        
-        if not self.validate(table):
-            table[i][j] = '.'
+        for k in range(1, self.board_size+1):
+            b.table[row][col] = str(k)
+            # if this value is valid, recurse
+            self.solve(b)
+            if b.solved:
+                return
+            b.table[row][col] = '0' # reset val if it isn't valid
 
-        return table
-
+        return
 
