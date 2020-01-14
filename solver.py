@@ -63,13 +63,13 @@ class Solver:
     def find_unsolved(self, b):
         for row in range(self.board_size):
             for col in range(self.board_size):
-                if b.table[row][col] == '0':
+                if b.get_table()[row][col] == '0':
                     return row, col
 
         return -1, -1
 
     def solve(self, b):
-        if not self.validate(b.table):
+        if not self.validate(b.get_table()):
             b.solved = False
             return
 
@@ -82,7 +82,7 @@ class Solver:
             b.table[row][col] = str(k)
             # if this value is valid, recurse
             self.solve(b)
-            if b.solved:
+            if b.is_solved():
                 return
             b.table[row][col] = '0' # reset val if it isn't valid
 
