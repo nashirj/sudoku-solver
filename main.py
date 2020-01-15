@@ -76,7 +76,7 @@ PUZZLES = [
     "010020300004003050060000001005700060000800002070012000400005090000400805007000000"
 ]
 
-def main():
+def solvePuzzles():
     '''Driver code to demonstrate solver algorithm in solve.py.
 
     This will eventually have an interactive GUI.
@@ -94,6 +94,12 @@ def main():
             helper.display("SOLVED BOARD IN {} seconds".format(t_1-t_0), board_obj)
         else:
             print("no solution to this puzzle")
+
+# make GUI
+def main():
+    puzzle = "010020300004001050060000007005800060000900002080014000300005010000700905007000000"
+    board_obj = board.Board(puzzle)
+
 
 if __name__ == '__main__':
     main()
