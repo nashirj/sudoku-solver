@@ -18,6 +18,7 @@ import helper
 import solver
 import board
 
+import random
 
 PUZZLES = [
     "010020300004005060070000008006900070000100002030048000500006040000800106008000000",
@@ -84,20 +85,19 @@ def solvePuzzles():
 
     sol = solver.Solver(9, 3)
 
-    for puzzle in PUZZLES:
-        board_obj = board.Board(puzzle)
-        helper.display("ORIGINAL BOARD", board_obj)
-        t_0 = time.time()
-        sol.solve(board_obj)
-        t_1 = time.time()
-        if board_obj.solved:
-            helper.display("SOLVED BOARD IN {} seconds".format(t_1-t_0), board_obj)
-        else:
-            print("no solution to this puzzle")
+    board_obj = board.Board(puzzle)
+    helper.display("ORIGINAL BOARD", board_obj)
+    t_0 = time.time()
+    sol.solve(board_obj)
+    t_1 = time.time()
+    if board_obj.solved:
+        helper.display("SOLVED BOARD IN {} seconds".format(t_1-t_0), board_obj)
+    else:
+        print("no solution to this puzzle")
 
 # make GUI
 def main():
-    puzzle = "010020300004001050060000007005800060000900002080014000300005010000700905007000000"
+    puzzle = random.choice(PUZZLES)
     board_obj = board.Board(puzzle)
 
 
