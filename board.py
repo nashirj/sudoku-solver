@@ -26,11 +26,17 @@ class Board:
         self.label.pack(side=tkinter.TOP)
         self.label_state = True
 
-        self.button = tkinter.Button(master=self.root_window, 
+        self.solve_button = tkinter.Button(master=self.root_window, 
                         text="Solve puzzle",
                         fg="red",
                         command=self.solve_puzzle)
-        self.button.pack(side=tkinter.TOP)
+        self.solve_button.pack(side=tkinter.TOP)
+
+        self.new_puzzle_button = tkinter.Button(master=self.root_window, 
+                        text="New puzzle",
+                        fg="red",
+                        command=self.new_puzzle)
+        self.new_puzzle_button.pack(side=tkinter.TOP)
 
         self.grid = tkinter.Frame(self.root_window)
         self.grid.pack(side=tkinter.BOTTOM)
@@ -68,12 +74,14 @@ class Board:
                 # place label in row r and column c
                 label.grid(row=row, column=col)
 
-        self.solved = False
+    def new_puzzle(self):
+        pass
 
     def solve_puzzle(self):
         if self.label_state:
             self.label["text"] = "Solved puzzle"
-            self.button["text"] = "Reset puzzle"
+            self.solve_button["text"] = "Reset puzzle"
+            self.new_puzzle_button["text"] = "New puzzle"
             if self.solved_table:
                 self.table = self.solved_table
             else:
@@ -81,7 +89,8 @@ class Board:
                 self.solved_table = self.table
         else:
             self.label["text"] = "Unsolved puzzle"
-            self.button["text"] = "Solve puzzle"
+            self.solve_button["text"] = "Solve puzzle"
+            self.new_puzzle_button["text"] = "New puzzle"
             self.reset_board()
         self.label_state = not self.label_state
         if self.solved:
